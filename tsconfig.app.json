@@ -16,6 +16,15 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "paths": {
+      "@Assets/*": ["./src/assets/*"],
+      "@Components/*": ["./src/components/*"],
+      "@Constants/*": ["./src/constants/*"],
+      "@Hooks/*": ["./src/hooks/*"],
+      "@Interfaces/*": ["./src/interfaces/*"],
+      "@Pages/*": ["./src/pages/*"],
+      "@Routes/*": ["./src/routes/*"]
+    },
 
     /* Linting */
     "strict": true,
