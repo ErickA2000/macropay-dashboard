@@ -1,7 +1,11 @@
-function Configuration() {
+import { Flex } from "antd";
+import { Link } from "react-router-dom";
 
+function Configuration() {
   return (
-    <><p>Configuration</p></>
+    <Flex vertical>
+      <Link to="edit-catalog">Editar catálogo</Link>
+    </Flex>
   );
 }
 

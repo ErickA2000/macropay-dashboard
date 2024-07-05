@@ -1,16 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Navigation from "./navigation";
-import { ROUTES } from "@Routes/routes";
 import { Flex } from "antd";
-
-const router = createBrowserRouter(ROUTES);
+import "./styles.css";
+import { Outlet } from "react-router-dom";
 
 function Home() {
 
   return (
-    <Flex>
+    <Flex className="home-container">
         <Navigation/>
-        <RouterProvider router={router}></RouterProvider>
+        <Outlet/>
     </Flex>
   );
 }

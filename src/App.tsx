@@ -1,14 +1,29 @@
 import Header from '@Components/header'
 import './App.css'
 import { ConfigProvider } from 'antd'
-import Home from '@Pages/home'
+import { ROUTES } from '@Routes/routes';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter(ROUTES);
 
 function App() {
 
   return (
-    <ConfigProvider>
+    <ConfigProvider 
+      theme={
+        {
+          components: {
+            Menu: {
+              itemHoverBg: "#EDF2F7",
+              itemSelectedBg: "#0047BA",
+              itemSelectedColor: "#FFDD00"       
+            }
+          }
+        }
+      }
+    >
       <Header/>
-      <Home/>
+      <RouterProvider router={router}></RouterProvider>
     </ConfigProvider>
   )
 }
