@@ -10,7 +10,6 @@ import CardService from "@Components/card-service";
 import { useCategories } from "@Hooks/useCategories";
 import ModalCategory from "@Components/modal-category";
 import { useOpenModalCategory } from "@Hooks/useOpenModalCategory";
-import { useEffect } from "react";
 
 function EditCatalog() {
   const breadcrumbItems = [
@@ -31,11 +30,6 @@ function EditCatalog() {
   ];
   const categoryHook = useCategories();
   const modal = useOpenModalCategory();
-
-  useEffect(() => {
-    console.log(categoryHook.categories);
-    
-  }, [categoryHook.categories])
 
   return (
     <Flex vertical className="edit-container">
@@ -64,10 +58,10 @@ function EditCatalog() {
               Agregar categoría / servicio
             </Button>
 
-            <ModalCategory state={modal.state} close={modal.close}/>
+            <ModalCategory state={modal.state} close={modal.close} />
 
-            <Flex vertical gap="middle">
-              {categoryHook.categories.map((category, categoryIndex) => (
+            <Flex vertical>
+              {categoryHook.items.map((category, categoryIndex) => (
                 <CardService
                   key={category.id}
                   title={category.title}
@@ -75,7 +69,8 @@ function EditCatalog() {
                   contentSubCard
                   index={categoryIndex}
                   isSubCard={false}
-                  subCard={categoryHook.categories.map(
+                  idParent={category.id}
+                  subCard={category.subCategory.map(
                     (subCategory, subCategoryIndex) => (
                       <CardService
                         index={subCategoryIndex}
@@ -90,21 +85,6 @@ function EditCatalog() {
                   )}
                 />
               ))}
-
-              {/* <CardService
-                title="Nombre servicios 2"
-                index={1}
-                id="1"
-                contentSubCard
-                subCard={
-                  <CardService
-                    index={1}
-                    title="sub card"
-                    id="1"
-                    contentSubCard={false}
-                  />
-                }
-              /> */}
             </Flex>
           </section>
         </Flex>

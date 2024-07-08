@@ -1,3 +1,4 @@
+import { ArrayStateProvider } from "@Hooks/useCategories";
 import { Flex } from "antd";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
@@ -7,10 +8,12 @@ function Configuration() {
   const isEditCatalog = route.includes("edit-catalog");
 
   return (
-    <Flex vertical style={{width: "100%"}}>
+    <Flex vertical style={{ width: "100%" }}>
       {!isEditCatalog && <Link to="edit-catalog">Editar catálogo</Link>}
 
-      <Outlet />
+      <ArrayStateProvider>
+        <Outlet />
+      </ArrayStateProvider>
     </Flex>
   );
 }

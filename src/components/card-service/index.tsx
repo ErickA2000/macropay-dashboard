@@ -45,7 +45,7 @@ function CardService({
       categoryHook.remove(index);
     }
   };
-
+  
   return (
     <>
       <Card className="card">
@@ -90,7 +90,7 @@ function CardService({
           <Button type="link" icon={<PlusOutlined />} className="btn" onClick={modal.open}>
             Agregar categoría / servicio
           </Button>
-            <ModalCategory state={modal.state} close={modal.close}/>
+            <ModalCategory state={modal.state} close={modal.close} mainCategoryId={idParent}/>
           {subCard}
         </section>
       )}

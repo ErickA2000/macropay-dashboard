@@ -15,13 +15,17 @@ type FielType = {
 
 function ModalCategory({ state, close, mainCategoryId }: Props) {
   const category = useCategories();
+  const [form] = Form.useForm();
 
   const onFinish: FormProps<FielType>["onFinish"] = (values) => {
     if (mainCategoryId) {
+      console.log(mainCategoryId);
       category.addSubCategory(mainCategoryId, {
         id: crypto.randomUUID().toString(),
         ...values,
       });
+
+      form.resetFields();
       close();
     } else {
       category.add({
@@ -29,13 +33,21 @@ function ModalCategory({ state, close, mainCategoryId }: Props) {
         ...values,
         subCategory: [],
       });
+
+      form.resetFields();
       close();
     }
   };
 
   return (
-    <Modal open={state} footer onCancel={() => close()}>
-      <Form name="category" autoComplete="off" onFinish={onFinish}>
+    <Modal
+      open={state}
+      footer
+      onCancel={() => {
+        form.resetFields();
+        close();
+      }}>
+      <Form autoComplete="off" onFinish={onFinish} form={form}>
         <h4>Nombre de la categoría*</h4>
         <Form.Item<FielType>
           name="title"
