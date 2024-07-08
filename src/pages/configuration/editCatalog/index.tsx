@@ -8,6 +8,9 @@ import { Breadcrumb, Button, Flex } from "antd";
 import "./styles.css";
 import CardService from "@Components/card-service";
 import { useCategories } from "@Hooks/useCategories";
+import ModalCategory from "@Components/modal-category";
+import { useOpenModalCategory } from "@Hooks/useOpenModalCategory";
+import { useEffect } from "react";
 
 function EditCatalog() {
   const breadcrumbItems = [
@@ -27,6 +30,12 @@ function EditCatalog() {
     },
   ];
   const categoryHook = useCategories();
+  const modal = useOpenModalCategory();
+
+  useEffect(() => {
+    console.log(categoryHook.categories);
+    
+  }, [categoryHook.categories])
 
   return (
     <Flex vertical className="edit-container">
@@ -47,30 +56,38 @@ function EditCatalog() {
           </section>
 
           <section className="container-services">
-            <Button type="link" icon={<PlusOutlined />} className="btn">
+            <Button
+              type="link"
+              icon={<PlusOutlined />}
+              className="btn"
+              onClick={modal.open}>
               Agregar categoría / servicio
             </Button>
 
+            <ModalCategory state={modal.state} close={modal.close}/>
+
             <Flex vertical gap="middle">
-              {categoryHook.categories.map((category, index) => (
+              {categoryHook.categories.map((category, categoryIndex) => (
                 <CardService
                   key={category.id}
                   title={category.title}
                   id={category.id}
                   contentSubCard
-                  index={index}
+                  index={categoryIndex}
                   isSubCard={false}
-                  subCard={categoryHook.categories.map((subCategory, index) => (
-                    <CardService
-                      index={index}
-                      title={subCategory.title}
-                      id={subCategory.id}
-                      contentSubCard={false}
-                      isSubCard
-                      idParent={category.id}
-                      key={subCategory.id}
-                    />
-                  ))}
+                  subCard={categoryHook.categories.map(
+                    (subCategory, subCategoryIndex) => (
+                      <CardService
+                        index={subCategoryIndex}
+                        title={subCategory.title}
+                        id={subCategory.id}
+                        contentSubCard={false}
+                        isSubCard
+                        idParent={category.id}
+                        key={subCategory.id}
+                      />
+                    )
+                  )}
                 />
               ))}
 

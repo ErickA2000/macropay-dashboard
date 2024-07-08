@@ -10,6 +10,8 @@ import { Button, Card, Flex } from "antd";
 import "./styles.css";
 import React, { useState } from "react";
 import { useCategories } from "@Hooks/useCategories";
+import { useOpenModalCategory } from "@Hooks/useOpenModalCategory";
+import ModalCategory from "@Components/modal-category";
 
 interface Props {
   id: string;
@@ -32,6 +34,7 @@ function CardService({
 }: Props) {
   const [openSubCard, setOpenSubCard] = useState(false);
   const categoryHook = useCategories();
+  const modal = useOpenModalCategory();
 
   const deleteCategory = () => {
     if (isSubCard && idParent) {
@@ -84,9 +87,10 @@ function CardService({
 
       {contentSubCard && openSubCard && (
         <section className="sub-card">
-          <Button type="link" icon={<PlusOutlined />} className="btn">
+          <Button type="link" icon={<PlusOutlined />} className="btn" onClick={modal.open}>
             Agregar categoría / servicio
           </Button>
+            <ModalCategory state={modal.state} close={modal.close}/>
           {subCard}
         </section>
       )}

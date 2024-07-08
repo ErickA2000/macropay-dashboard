@@ -1,4 +1,4 @@
-import { CategoryServices } from "@Interfaces/category-services";
+import { Category, CategoryServices } from "@Interfaces/category-services";
 import { useState } from "react";
 
 export function useCategories() {
@@ -6,6 +6,20 @@ export function useCategories() {
 
   const add = (category: CategoryServices) => {
     setCategories((array) => [...array, category]);
+  };
+
+  const addSubCategory = (mainCategoryId: string, categoryInput: Category) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((category) => {
+        if (category.id === mainCategoryId) {
+          return {
+            ...category,
+            subCategory: [...category.subCategory, categoryInput],
+          };
+        }
+        return category;
+      })
+    );
   };
 
   const remove = (index: number) => {
@@ -47,7 +61,8 @@ export function useCategories() {
   return {
     categories,
     add,
+    addSubCategory,
     remove,
-    removeSubCategory
+    removeSubCategory,
   };
 }
