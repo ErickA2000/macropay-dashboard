@@ -1,11 +1,15 @@
 import { useCategories } from "@Hooks/useCategories";
 import { Button, Flex, Form, FormProps, Input, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
+import "./styles.css";
 
 interface Props {
   state: boolean;
   mainCategoryId?: string;
+  childrenId?: string;
   close: () => void;
+  title: string;
+  isOnlyView: boolean;
 }
 
 type FielType = {
@@ -13,7 +17,13 @@ type FielType = {
   description: string;
 };
 
-function ModalCategory({ state, close, mainCategoryId }: Props) {
+function ModalCategory({
+  state,
+  close,
+  mainCategoryId,
+  isOnlyView,
+  title,
+}: Props) {
   const category = useCategories();
   const [form] = Form.useForm();
 
@@ -43,11 +53,17 @@ function ModalCategory({ state, close, mainCategoryId }: Props) {
     <Modal
       open={state}
       footer
+      title={title}
+      className="modal"
       onCancel={() => {
         form.resetFields();
         close();
       }}>
-      <Form autoComplete="off" onFinish={onFinish} form={form}>
+      <Form
+        autoComplete="off"
+        onFinish={onFinish}
+        form={form}
+        disabled={isOnlyView}>
         <h4>Nombre de la categoría*</h4>
         <Form.Item<FielType>
           name="title"
@@ -68,13 +84,15 @@ function ModalCategory({ state, close, mainCategoryId }: Props) {
           />
         </Form.Item>
 
-        <Flex justify="space-between">
-          <Button type="link">Opciones avanzadas</Button>
+        {!isOnlyView && (
+          <Flex justify="space-between">
+            <Button type="link">Opciones avanzadas</Button>
 
-          <Button htmlType="submit" type="primary">
-            Aceptar
-          </Button>
-        </Flex>
+            <Button htmlType="submit" type="primary">
+              Aceptar
+            </Button>
+          </Flex>
+        )}
       </Form>
     </Modal>
   );

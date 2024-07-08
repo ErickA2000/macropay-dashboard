@@ -33,9 +33,10 @@ function CardService({
   id,
 }: Props) {
   const [openSubCard, setOpenSubCard] = useState(false);
+  const [isOpenOnlyViewModal, setIsOpenOnlyViewModal] = useState(false);
   const categoryHook = useCategories();
   const modal = useOpenModalCategory();
-
+    
   const deleteCategory = () => {
     if (isSubCard && idParent) {
       categoryHook.removeSubCategory(idParent, id);
@@ -45,7 +46,7 @@ function CardService({
       categoryHook.remove(index);
     }
   };
-  
+
   return (
     <>
       <Card className="card">
@@ -62,6 +63,7 @@ function CardService({
               type="link"
               shape="circle"
               icon={<EyeOutlined className="icon" />}
+              onClick={() => setIsOpenOnlyViewModal(true)}
             />
             <Button
               type="link"
@@ -84,13 +86,31 @@ function CardService({
           </Flex>
         </Flex>
       </Card>
+      <ModalCategory
+        state={isOpenOnlyViewModal}
+        close={() => setIsOpenOnlyViewModal(false)}
+        mainCategoryId={idParent}
+        childrenId={id}
+        isOnlyView
+        title="Categoría"
+      />
 
       {contentSubCard && openSubCard && (
         <section className="sub-card">
-          <Button type="link" icon={<PlusOutlined />} className="btn" onClick={modal.open}>
+          <Button
+            type="link"
+            icon={<PlusOutlined />}
+            className="btn"
+            onClick={modal.open}>
             Agregar categoría / servicio
           </Button>
-            <ModalCategory state={modal.state} close={modal.close} mainCategoryId={idParent}/>
+          <ModalCategory
+            state={modal.state}
+            close={modal.close}
+            mainCategoryId={idParent}
+            isOnlyView={false}
+            title="Agregar categoría - Servicio"
+          />
           {subCard}
         </section>
       )}

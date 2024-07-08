@@ -58,7 +58,12 @@ function EditCatalog() {
               Agregar categoría / servicio
             </Button>
 
-            <ModalCategory state={modal.state} close={modal.close} />
+            <ModalCategory
+              state={modal.state}
+              close={modal.close}
+              isOnlyView={false}
+              title="Agregar categoría - Servicio"
+            />
 
             <Flex vertical>
               {categoryHook.items.map((category, categoryIndex) => (
