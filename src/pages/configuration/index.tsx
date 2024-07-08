@@ -1,12 +1,18 @@
 import { Flex } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 function Configuration() {
+  const location = useLocation();
+  const route = location.pathname.split("/");
+  const isEditCatalog = route.includes("edit-catalog");
+
   return (
-    <Flex vertical>
-      <Link to="edit-catalog">Editar catálogo</Link>
+    <Flex vertical style={{width: "100%"}}>
+      {!isEditCatalog && <Link to="edit-catalog">Editar catálogo</Link>}
+
+      <Outlet />
     </Flex>
   );
 }
 
-export default Configuration
+export default Configuration;

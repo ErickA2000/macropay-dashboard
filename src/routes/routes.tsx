@@ -28,7 +28,7 @@ export const ROUTES: RouteObject[] = [
         element: <Configuration />,
         children: [
           {
-            path: "/edit-catalog",
+            path: "edit-catalog",
             element: <EditCatalog/>
           }
         ]
