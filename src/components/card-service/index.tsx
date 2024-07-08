@@ -9,16 +9,40 @@ import {
 import { Button, Card, Flex } from "antd";
 import "./styles.css";
 import React, { useState } from "react";
+import { useCategories } from "@Hooks/useCategories";
 
 interface Props {
-  title: string;
   id: string;
+  index: number;
+  title: string;
   contentSubCard: boolean;
+  isSubCard: boolean;
   subCard?: React.ReactNode;
+  idParent?: string;
 }
 
-function CardService({ title, id, contentSubCard, subCard }: Props) {
+function CardService({
+  title,
+  index,
+  contentSubCard,
+  subCard,
+  isSubCard,
+  idParent,
+  id,
+}: Props) {
   const [openSubCard, setOpenSubCard] = useState(false);
+  const categoryHook = useCategories();
+
+  const deleteCategory = () => {
+    if (isSubCard && idParent) {
+      categoryHook.removeSubCategory(idParent, id);
+    }
+
+    if (!isSubCard) {
+      categoryHook.remove(index);
+    }
+  };
+
   return (
     <>
       <Card className="card">
@@ -40,6 +64,7 @@ function CardService({ title, id, contentSubCard, subCard }: Props) {
               type="link"
               shape="circle"
               icon={<DeleteOutlined className="icon" />}
+              onClick={deleteCategory}
             />
             <Button
               type="link"

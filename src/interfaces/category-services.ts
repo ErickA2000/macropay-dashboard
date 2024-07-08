@@ -1,5 +1,9 @@
-export interface CategoryServices {
-    id: string;
-    title: string;
-    description: string;
+export interface CategoryServices extends Category {
+  subCategory: Category[]
+}
+
+interface Category{
+  id: string;
+  title: string;
+  description: string;
 }
