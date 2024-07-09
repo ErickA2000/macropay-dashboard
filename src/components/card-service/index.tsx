@@ -10,12 +10,13 @@ import "./styles.css";
 import React, { useState } from "react";
 import ViewDataCategory from "@Components/view-data-category";
 import OpenModal from "@Components/open-modal";
+import Emitter from "@Utils/emitter";
+import { RemoveElement } from "@Interfaces/category-services";
 
 interface Props {
   id: string;
   title: string;
   contentSubCard: boolean;
-  removeItem: () => void;
   subCard?: React.ReactNode;
   idParent?: string;
 }
@@ -26,15 +27,18 @@ function CardService({
   subCard,
   idParent,
   id,
-  removeItem,
 }: Props) {
   const [openSubCard, setOpenSubCard] = useState(false);
   const [isOpenOnlyViewModal, setIsOpenOnlyViewModal] = useState(false);
 
-  console.log("in card");
+  // console.log("in card");
 
   const deleteCategory = () => {
-    removeItem();
+    Emitter<RemoveElement>().emit("remove-card", {
+      idParent,
+      idChildren: id
+    })
+    // removeItem();
   };
 
   return (

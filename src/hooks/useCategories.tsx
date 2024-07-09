@@ -48,11 +48,8 @@ export function ArrayStateProvider({ children }: ArrayStateProviderProps) {
     );
   };
 
-  const remove = (index: number) => {
-    setCategories((array) => [
-      ...array.slice(0, index),
-      ...array.slice(index + 1, array.length),
-    ]);
+  const remove = (id: string) => {
+    setCategories((array) => array.filter((category) => category.id !== id));
   };
 
   const removeSubCategory = (mainCategoryId: string, subCategoryId: string) => {

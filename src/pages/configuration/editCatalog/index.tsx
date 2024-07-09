@@ -4,6 +4,9 @@ import "./styles.css";
 import CardService from "@Components/card-service";
 import { useCategories } from "@Hooks/useCategories";
 import OpenModal from "@Components/open-modal";
+import { useEffect } from "react";
+import Emitter from "@Utils/emitter";
+import { RemoveElement } from "@Interfaces/category-services";
 
 function EditCatalog() {
   const breadcrumbItems = [
@@ -25,16 +28,27 @@ function EditCatalog() {
   const categoryHook = useCategories();
 
   const removeItem = (
-    indexParent: number,
-    idParent: string,
+    idParent?: string,
     idChildren?: string
   ) => {
-    if (idParent && idChildren) {
+    if (idParent && idChildren && idParent !== idChildren) {
       categoryHook.removeSubCategory(idParent, idChildren);
-    } else {
-      categoryHook.remove(indexParent);
+    } else if(idParent){
+      categoryHook.remove(idParent);
     }
   };
+
+  useEffect(() => {
+    Emitter<RemoveElement>().on("remove-card", (data) => {
+      removeItem(data.idParent, data.idChildren);
+    });
+
+    // return () => {
+    //   Emitter<RemoveElement>().off("remove-card", (data) => {
+    //     removeItem(data.indexParent, data.idParent, data.idChildren);
+    //   });
+    // };
+  });
 
   return (
     <Flex vertical className="edit-container">
@@ -58,14 +72,13 @@ function EditCatalog() {
             <OpenModal />
 
             <Flex vertical>
-              {categoryHook.items.map((category, categoryIndex) => (
+              {categoryHook.items.map((category) => (
                 <CardService
                   key={category.id}
                   title={category.title}
                   id={category.id}
                   contentSubCard
                   idParent={category.id}
-                  removeItem={() => removeItem(categoryIndex, category.id)}
                   subCard={category.subCategory.map((subCategory) => (
                     <CardService
                       title={subCategory.title}
@@ -73,9 +86,6 @@ function EditCatalog() {
                       contentSubCard={false}
                       idParent={category.id}
                       key={subCategory.id}
-                      removeItem={() =>
-                        removeItem(categoryIndex, category.id, subCategory.id)
-                      }
                     />
                   ))}
                 />
