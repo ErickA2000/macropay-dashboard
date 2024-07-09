@@ -1,8 +1,4 @@
-import {
-  HomeOutlined,
-  ImportOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, ImportOutlined, SaveOutlined } from "@ant-design/icons";
 import { Breadcrumb, Flex } from "antd";
 import "./styles.css";
 import CardService from "@Components/card-service";
@@ -28,13 +24,17 @@ function EditCatalog() {
   ];
   const categoryHook = useCategories();
 
-  const removeItem = (indexParent: number, idParent: string, idChildren?: string) => {
-    if(idParent && idChildren){
+  const removeItem = (
+    indexParent: number,
+    idParent: string,
+    idChildren?: string
+  ) => {
+    if (idParent && idChildren) {
       categoryHook.removeSubCategory(idParent, idChildren);
-    }else{
+    } else {
       categoryHook.remove(indexParent);
     }
-  }
+  };
 
   return (
     <Flex vertical className="edit-container">
@@ -55,7 +55,6 @@ function EditCatalog() {
           </section>
 
           <section className="container-services">
-
             <OpenModal />
 
             <Flex vertical>
@@ -67,22 +66,21 @@ function EditCatalog() {
                   contentSubCard
                   idParent={category.id}
                   removeItem={() => removeItem(categoryIndex, category.id)}
-                  subCard={category.subCategory.map(
-                    (subCategory) => (
-                      <CardService
-                        title={subCategory.title}
-                        id={subCategory.id}
-                        contentSubCard={false}
-                        idParent={category.id}
-                        key={subCategory.id}
-                        removeItem={() => removeItem(categoryIndex, category.id, subCategory.id)}
-                      />
-                    )
-                  )}
+                  subCard={category.subCategory.map((subCategory) => (
+                    <CardService
+                      title={subCategory.title}
+                      id={subCategory.id}
+                      contentSubCard={false}
+                      idParent={category.id}
+                      key={subCategory.id}
+                      removeItem={() =>
+                        removeItem(categoryIndex, category.id, subCategory.id)
+                      }
+                    />
+                  ))}
                 />
               ))}
             </Flex>
-
           </section>
         </Flex>
       </section>

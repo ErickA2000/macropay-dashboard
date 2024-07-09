@@ -23,9 +23,7 @@ function ModalCategory({
   title,
 }: Props) {
   const category = useCategories();
-  const [form] = Form.useForm();
-  console.log("modal");
-  
+  const [form] = Form.useForm();  
   
   const onFinish: FormProps<FielType>["onFinish"] = (values) => {
     if (mainCategoryId) {

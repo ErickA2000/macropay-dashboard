@@ -32,7 +32,7 @@ function CardService({
   const [isOpenOnlyViewModal, setIsOpenOnlyViewModal] = useState(false);
 
   console.log("in card");
-  
+
   const deleteCategory = () => {
     removeItem();
   };
@@ -87,7 +87,7 @@ function CardService({
 
       {contentSubCard && openSubCard && (
         <section className="sub-card">
-          <OpenModal mainCategoryId={idParent}/>
+          <OpenModal mainCategoryId={idParent} />
 
           {subCard}
         </section>
