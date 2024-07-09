@@ -4,47 +4,37 @@ import {
   DashOutlined,
   DeleteOutlined,
   EyeOutlined,
-  PlusOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Flex } from "antd";
+import { Button, Card, Flex, Modal } from "antd";
 import "./styles.css";
 import React, { useState } from "react";
-import { useCategories } from "@Hooks/useCategories";
-import { useOpenModalCategory } from "@Hooks/useOpenModalCategory";
-import ModalCategory from "@Components/modal-category";
+import ViewDataCategory from "@Components/view-data-category";
+import OpenModal from "@Components/open-modal";
 
 interface Props {
   id: string;
-  index: number;
   title: string;
   contentSubCard: boolean;
-  isSubCard: boolean;
+  removeItem: () => void;
   subCard?: React.ReactNode;
   idParent?: string;
 }
 
 function CardService({
   title,
-  index,
   contentSubCard,
   subCard,
-  isSubCard,
   idParent,
   id,
+  removeItem,
 }: Props) {
   const [openSubCard, setOpenSubCard] = useState(false);
   const [isOpenOnlyViewModal, setIsOpenOnlyViewModal] = useState(false);
-  const categoryHook = useCategories();
-  const modal = useOpenModalCategory();
-    
-  const deleteCategory = () => {
-    if (isSubCard && idParent) {
-      categoryHook.removeSubCategory(idParent, id);
-    }
 
-    if (!isSubCard) {
-      categoryHook.remove(index);
-    }
+  console.log("in card");
+  
+  const deleteCategory = () => {
+    removeItem();
   };
 
   return (
@@ -86,31 +76,19 @@ function CardService({
           </Flex>
         </Flex>
       </Card>
-      <ModalCategory
-        state={isOpenOnlyViewModal}
-        close={() => setIsOpenOnlyViewModal(false)}
-        mainCategoryId={idParent}
-        childrenId={id}
-        isOnlyView
-        title="Categoría"
-      />
+
+      <Modal
+        footer
+        open={isOpenOnlyViewModal}
+        onClose={() => setIsOpenOnlyViewModal(false)}
+        onCancel={() => setIsOpenOnlyViewModal(false)}>
+        <ViewDataCategory parentId={idParent} childrenId={id} />
+      </Modal>
 
       {contentSubCard && openSubCard && (
         <section className="sub-card">
-          <Button
-            type="link"
-            icon={<PlusOutlined />}
-            className="btn"
-            onClick={modal.open}>
-            Agregar categoría / servicio
-          </Button>
-          <ModalCategory
-            state={modal.state}
-            close={modal.close}
-            mainCategoryId={idParent}
-            isOnlyView={false}
-            title="Agregar categoría - Servicio"
-          />
+          <OpenModal mainCategoryId={idParent}/>
+
           {subCard}
         </section>
       )}

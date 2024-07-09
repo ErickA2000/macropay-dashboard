@@ -1,3 +1,4 @@
+import { generateData } from "@Constants/data";
 import {
   ArrayStateContextType,
   ArrayStateProviderProps,
@@ -11,10 +12,10 @@ const arrayStateContext = createContext<ArrayStateContextType | undefined>(
 );
 
 export function ArrayStateProvider({ children }: ArrayStateProviderProps) {
-  const [categories, setCategories] = useState<CategoryServices[]>([]);
+  const [categories, setCategories] = useState<CategoryServices[]>(generateData(100));
 
   const find = (parentId?: string, childrenId?: string) => {
-    if (parentId && childrenId) {
+    if (parentId && childrenId && parentId !== childrenId) {
       const categoryLevel1 = categories.filter(
         (value) => value.id === parentId
       );

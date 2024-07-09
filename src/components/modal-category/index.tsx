@@ -9,7 +9,6 @@ interface Props {
   childrenId?: string;
   close: () => void;
   title: string;
-  isOnlyView: boolean;
 }
 
 type FielType = {
@@ -21,15 +20,15 @@ function ModalCategory({
   state,
   close,
   mainCategoryId,
-  isOnlyView,
   title,
 }: Props) {
   const category = useCategories();
   const [form] = Form.useForm();
-
+  console.log("modal");
+  
+  
   const onFinish: FormProps<FielType>["onFinish"] = (values) => {
     if (mainCategoryId) {
-      console.log(mainCategoryId);
       category.addSubCategory(mainCategoryId, {
         id: crypto.randomUUID().toString(),
         ...values,
@@ -63,7 +62,7 @@ function ModalCategory({
         autoComplete="off"
         onFinish={onFinish}
         form={form}
-        disabled={isOnlyView}>
+        >
         <h4>Nombre de la categoría*</h4>
         <Form.Item<FielType>
           name="title"
@@ -84,7 +83,6 @@ function ModalCategory({
           />
         </Form.Item>
 
-        {!isOnlyView && (
           <Flex justify="space-between">
             <Button type="link">Opciones avanzadas</Button>
 
@@ -92,7 +90,6 @@ function ModalCategory({
               Aceptar
             </Button>
           </Flex>
-        )}
       </Form>
     </Modal>
   );
